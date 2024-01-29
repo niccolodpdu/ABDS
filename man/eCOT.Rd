@@ -7,7 +7,7 @@
 eCOT(input, cos.thres = NULL, top = NULL, per = NULL)
 }
 \arguments{
-\item{input}{The input matrix with features on rows and samples on columns. The input matrix should have only one sample in each 
+\item{input}{The input matrix with features on rows and samples on columns. The input matrix should have only one sample in each
 group, or use 'super_sample' function first to create a super-sample that only has one sample in each group.}
 
 \item{cos.thres}{The cosine threshold for DSGs.}

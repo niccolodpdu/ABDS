@@ -13,15 +13,15 @@ MGpI(
 )
 }
 \arguments{
-\item{readin}{Read-in data, with features on the row and samples (grouped) on the columns. All missing values (NA) should 
+\item{readin}{Read-in data, with features on the row and samples (grouped) on the columns. All missing values (NA) should
 be imputed beforehand. Samples of the same group should be placed together.}
 
 \item{nRep}{The number of samples in each group, e.g., c(5,4,3,2), corresponding to the readin data.}
 
-\item{min_option}{The options for the minimum value, with 'global' (default) meaning to use the global minimum value across the 
+\item{min_option}{The options for the minimum value, with 'global' (default) meaning to use the global minimum value across the
 whole data matrix, or 'local' meaning to use the feature-wise minimum value.}
 
-\item{missing_rate_threshold}{A value between 0 and 1. The upper threshold of sample-wise missing-rate allowed for features 
+\item{missing_rate_threshold}{A value between 0 and 1. The upper threshold of sample-wise missing-rate allowed for features
 in any of each group, with 1 as default (all features are allowed).}
 
 \item{sd_scaler}{For scaling up the standard deviation of the distribution obtained from the non-missing value. Default

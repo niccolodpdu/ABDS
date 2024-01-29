@@ -14,8 +14,8 @@ redblue(m = nrow(colormap()))
 a matrix with three columns (r, g, b) representing the color map
 }
 \description{
-To generate a colormap with shades of red and blue colors. 
-The colormap is used to create a gradient from the blue color to the red color. 
+To generate a colormap with shades of red and blue colors.
+The colormap is used to create a gradient from the blue color to the red color.
 The function takes an optional argument m which specifies the number of colors in the colormap.
 }
 \examples{

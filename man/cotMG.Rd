@@ -20,7 +20,7 @@ If data is not NULL, "thres.low" and "thres.high" would decide which
 genes should be removed in data. If data is NULL, the thresholds work
 on "Sest" directly.}
 
-\item{Sest}{Subpopulation-specific expression matrix. Each row is a gene 
+\item{Sest}{Subpopulation-specific expression matrix. Each row is a gene
 and each column is a sample.}
 
 \item{thres.low}{The lower bound of percentage of genes to keep with ranked
