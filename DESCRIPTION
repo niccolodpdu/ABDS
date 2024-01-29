@@ -1,0 +1,7 @@
+Package: ABDS
+Type: Package
+Title: Tool Suite for Analyzing Biologically Diverse Samples
+Version: 0.0.1.0
+Author: Dongping Du <dpdu@vt.edu>
+RoxygenNote: 7.3.0
+Encoding: UTF-8
