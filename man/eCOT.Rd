@@ -16,6 +16,9 @@ group, or use 'super_sample' function first to create a super-sample that only h
 
 \item{per}{The upper bound of the number of DSGs of each group.}
 }
+\value{
+A matrix of: the highest cosine values with the reference vectors (column 1), group indexes for the DSG (column 2), and their feature names (column 3)
+}
 \description{
 This function computes cosine values to select down-regulated signature genes (DSGs).
 }
