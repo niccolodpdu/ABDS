@@ -1,7 +1,6 @@
 #' @name eCOT
 #' @title Extended Cosine-based One-sample Test
-#' @description
-#' This function computes cosine values to select down-regulated signature genes (DSGs).
+#' @description This function computes cosine values to select down-regulated signature genes (DSGs).
 #' @param input The input matrix with features on rows and samples on columns. The input matrix should have only one sample in each 
 #'     group, or use 'super_sample' function first to create a super-sample that only has one sample in each group.
 #' @param cos.thres The cosine threshold for DSGs.
