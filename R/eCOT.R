@@ -6,7 +6,7 @@
 #' @param cos.thres The cosine threshold for DSGs.
 #' @param top The upper bound of the number of total DSGs.
 #' @param per The upper bound of the number of DSGs of each group.
-#' @export result A matrix of: the highest cosine values with the reference vectors (column 1), group indexes for the DSG (column 2), and their feature names (column 3) 
+#' @return A matrix of: the highest cosine values with the reference vectors (column 1), group indexes for the DSG (column 2), and their feature names (column 3) 
 #' @examples
 #' output<-eCOT(input)
 #' output<-eCOT(input,cos.thres=0.99)
