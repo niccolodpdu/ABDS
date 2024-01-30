@@ -28,7 +28,7 @@ in any of each group, with 1 as default (all features are allowed).}
 is 1 (no scaling).}
 }
 \value{
-the normalized data (with selected features. If you want all features included, set missing_rate_threshold to 1).
+the normalized data.
 }
 \description{
 Mechanism-integrated group-wise pre-imputation
