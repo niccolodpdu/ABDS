@@ -20,20 +20,21 @@ library(tilting)
 library(limSolve)
 library(scImpute)
 library(GEOquery)
-source('imputation/kNN.R')
-source('imputation/gbmImpute.R')
-source('imputation/lmImpute.R')
-source('imputation/meanImpute.R')
-source('imputation/SVD.R')
-source('imputation/SVT.R')
-source('imputation/SVTApprox.R')
-source('imputation/tsImpute.R')
-source('imputation/utils.R')
-source('imputation/imputation_functions_wrappers.R')
-source('MGpI.R')
-source('helper functions.R')
+library(ABDS)
+source('tests/MGpI/imputation/kNN.R')
+source('tests/MGpI/imputation/gbmImpute.R')
+source('tests/MGpI/imputation/lmImpute.R')
+source('tests/MGpI/imputation/meanImpute.R')
+source('tests/MGpI/imputation/SVD.R')
+source('tests/MGpI/imputation/SVT.R')
+source('tests/MGpI/imputation/SVTApprox.R')
+source('tests/MGpI/imputation/tsImpute.R')
+source('tests/MGpI/imputation/utils.R')
+source('tests/MGpI/imputation/imputation_functions_wrappers.R')
 
-readin<-read.csv('LAD45.csv')
+
+
+readin<-read.csv('tests/MGpI/LAD45.csv')
 data<-readin[,readin[292,]==0]
 data_NL<-data[data[,3]=='NL',]
 data_FS<-data[data[,3]=='FS',]
@@ -43,11 +44,12 @@ data_sorted<-rbind(data_NL,data_FS,data_FP,data_FC)
 data_sorted<-data_sorted[,4:713]
 data_input<-t(data_sorted)
 
+# Writing a wrapped function for testing multiple existing methods v.s. ABDS
 test_function<-function(data,rate,Total_missing,SG_threshold=0.98,iCEG_threshold=0.95,missing_rate_threshold=0.6,
                         MAR_option = 'All',pram = 12,sd_scaler=4,nRep=c(143,79,56,13)){
   
   # pram: parameter for SVD, PPCA, NIPALS, KNN
-  # rate: MAR rate
+  # rate: MAR (Missing At Random) rate
   ################# Read-in Data #################
   data_grnd_full <- data
   
@@ -353,5 +355,64 @@ for (i in (1:length(rate_range))){
     result<-cbind(result,named_vec)
   }
 }
+
+colnames(result)<-c('MAR rate = 20%; Total missing rate = 20%',
+                    'MAR rate = 20%; Total missing rate = 30%',
+                    'MAR rate = 20%; Total missing rate = 40%',
+                    'MAR rate = 40%; Total missing rate = 20%',
+                    'MAR rate = 40%; Total missing rate = 30%',
+                    'MAR rate = 40%; Total missing rate = 40%',
+                    'MAR rate = 60%; Total missing rate = 20%',
+                    'MAR rate = 60%; Total missing rate = 30%',
+                    'MAR rate = 60%; Total missing rate = 40%')
+
+row.names(result)<-c('ABDS - RMSE for all genes',
+                     'Mean - RMSE for all genes',
+                     'Half-min - RMSE for all genes',
+                     'swKNN - RMSE for all genes',
+                     'PPCA - RMSE for all genes',
+                     'NIPALS - RMSE for all genes',
+                     'SVD - RMSE for all genes',
+                     'SVT - RMSE for all genes',
+                     'ABDS - NRMSE for all genes',
+                     'Mean - NRMSE for all genes',
+                     'Half-min - NRMSE for all genes',
+                     'swKNN - NRMSE for all genes',
+                     'PPCA - NRMSE for all genes',
+                     'NIPALS - NRMSE for all genes',
+                     'SVD - NRMSE for all genes',
+                     'SVT - NRMSE for all genes',
+                     'ABDS - RMSE for Signature Genes',
+                     'Mean - RMSE for Signature Genes',
+                     'Half-min - RMSE for Signature Genes',
+                     'swKNN - RMSE for Signature Genes',
+                     'PPCA - RMSE for Signature Genes',
+                     'NIPALS - RMSE for Signature Genes',
+                     'SVD - RMSE for Signature Genes',
+                     'SVT - RMSE for Signature Genes',
+                     'ABDS - NRMSE for Signature Genes',
+                     'Mean - NRMSE for Signature Genes',
+                     'Half-min - NRMSE for Signature Genes',
+                     'swKNN - NRMSE for Signature Genes',
+                     'PPCA - NRMSE for Signature Genes',
+                     'NIPALS - NRMSE for Signature Genes',
+                     'SVD - NRMSE for Signature Genes',
+                     'SVT - NRMSE for Signature Genes',
+                     'ABDS - RMSE for Signature Genes - High expression group',
+                     'Mean - RMSE for Signature Genes - High expression group',
+                     'Half-min - RMSE for Signature Genes - High expression group',
+                     'swKNN - RMSE for Signature Genes - High expression group',
+                     'PPCA - RMSE for Signature Genes - High expression group',
+                     'NIPALS - RMSE for Signature Genes - High expression group',
+                     'SVD - RMSE for Signature Genes - High expression group',
+                     'SVT - RMSE for Signature Genes - High expression group',
+                     'ABDS - NRMSE for Signature Genes - High expression group',
+                     'Mean - NRMSE for Signature Genes - High expression group',
+                     'Half-min - NRMSE for Signature Genes - High expression group',
+                     'swKNN - NRMSE for Signature Genes - High expression group',
+                     'PPCA - NRMSE for Signature Genes - High expression group',
+                     'NIPALS - NRMSE for Signature Genes - High expression group',
+                     'SVD - NRMSE for Signature Genes - High expression group',
+                     'SVT - NRMSE for Signature Genes - High expression group')
 
 write.csv(result,'result LAD45.csv')

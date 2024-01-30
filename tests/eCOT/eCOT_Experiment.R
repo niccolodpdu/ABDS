@@ -1,7 +1,12 @@
-library(MASS); library(ggplot2); library(mvtnorm); library(gtools); library(openxlsx); library(writexl); library(magrittr); 
-library(dplyr);library(pROC)
-source('eCOT.R')
-source('scatter_plot.R')
+library(MASS)
+library(ggplot2) 
+library(mvtnorm)
+library(gtools)
+library(magrittr)
+library(dplyr)
+library(pROC)
+
+library(ABDS)
 
 #-----------
 #----Basic Parameter Settings----
