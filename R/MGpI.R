@@ -10,7 +10,7 @@
 #' @param sd_scaler For scaling up the standard deviation of the distribution obtained from the non-missing value. Default
 #' is 1 (no scaling).
 #' 
-#' @return the normalized data (with selected features. If you want all features included, set missing_rate_threshold to 1).
+#' @return the normalized data.
 #' 
 #' @examples 
 #' MGpIed <- MGpI(readin=data, nRep=c(5,4,3,2), min_option='global', missing_rate_threshold=0.8, sd_scaler=5)
