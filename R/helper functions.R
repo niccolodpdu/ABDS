@@ -63,29 +63,6 @@ totalcount <- function(data) {
 
 
 #' This function computes cosine values to select markers.
-#' @param data A data set that will be internally coerced into a matrix.
-#'     If data is not NULL, "thres.low" and "thres.high" would decide which
-#'     genes should be removed in data. If data is NULL, the thresholds work
-#'     on "Sest" directly.
-#' @param Sest Subpopulation-specific expression matrix. Each row is a gene 
-#'     and each column is a sample.
-#' @param thres.low The lower bound of percentage of genes to keep with ranked
-#'     norm. The value should be between 0 and 1. The default is 0.05.
-#' @param thres.high The higher bound of percentage of genes to keep with ranked
-#'     norm. The value should be between 0 and 1. The default is 1.
-#' @param cos.thres The cosine threshold for markers.
-#' @param top The upper bound of total markers.
-#' @param per The upper bound of markers of each Subpopulation.
-#' @details This function uses COT to detect markers.
-#' @return A list of vectors, each of which contains marker genes for one
-#' subpopulation.
-#' @export
-#' @examples
-#' data(ratMix3)
-#' data <- ratMix3$X
-#'
-#' #Find marker genes
-#' MGlist <- cotMG(data, rASest3$S, cos.thres = 0.99)
 cotMG <- function(data=NULL, Sest, thres.low=0.05, thres.high=1, cos.thres=1, 
                   top=NULL, per=NULL) {
   
