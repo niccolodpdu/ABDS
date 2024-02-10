@@ -2,7 +2,7 @@
 % Please edit documentation in R/uniHM.R
 \name{heatmap_data_modification}
 \alias{heatmap_data_modification}
-\title{Modify Data for Heatmap Visualization}
+\title{Function to modify data as per new heatmap design}
 \usage{
 heatmap_data_modification(tot_sg1)
 }
@@ -13,10 +13,5 @@ heatmap_data_modification(tot_sg1)
 A modified numeric matrix containing the scaled, log-transformed, and centered data.
 }
 \description{
-This function modifies the input data for visualization in a heatmap by performing scaling, log transformation, and centering.
-}
-\examples{
-tot_sg1 <- matrix(runif(100), nrow = 10)
-modified_data <- heatmap_data_modification(tot_sg1)
-
+This function modifies the input data for visualization in a heatmap by performing scaling, log transformation and centering.
 }
