@@ -1,8 +1,8 @@
-source('/Users/saurabhbhardwaj/Desktop/ABDS/uniHM.R')
 library(heatmaply)
 library(xlsx)
+library(ABDS)
 
-sample_data_uniHM <- read.xlsx("/Users/saurabhbhardwaj/Desktop/ABDS/uniHM/sample_data_uniHM.xlsx", sheetName = "data")
+sample_data_uniHM <- read.xlsx("tests/uniHM/sample_data_uniHM.xlsx", sheetName = "data")
 tot_sg_scale_log_center <- heatmap_data_modification(sample_data_uniHM)
 
 # Plot Heatmap
