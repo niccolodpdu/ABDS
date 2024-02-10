@@ -6,8 +6,6 @@
 #'
 #' @param m an integer, number of colors in the colormap
 #' @return a matrix with three columns (r, g, b) representing the color map
-#' @examples
-#' redblue()
 #' 
 redblue <- function(m = nrow(colormap())) {
             if (m %% 2 == 0) {
@@ -34,8 +32,12 @@ redblue <- function(m = nrow(colormap())) {
 
 #' Modify Data for Heatmap Visualization
 #'
+#' 
+#' @name heatmap_data_modification
+#' @title Function to modify data as per new heatmap design
+#' @description
 #' This function modifies the input data for visualization in a heatmap by performing scaling, log transformation, and centering.
-#'
+#' 
 #' @param tot_sg1 A numeric matrix containing the input data to be modified.
 #'
 #' @return A modified numeric matrix containing the scaled, log-transformed, and centered data.

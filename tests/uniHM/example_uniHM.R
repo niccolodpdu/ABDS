@@ -11,6 +11,6 @@ thld <- 2.5
 data_plot[data_plot > thld] <- thld
 data_plot[data_plot < -thld] <- -thld
 c <- redblue(300)
-#install.packages("heatmaply")
+
 heatmaply((data_plot),colors = rgb(c), cluster = FALSE, dendrogram = c("none") )
 
