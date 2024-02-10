@@ -3,9 +3,9 @@
 #' @description This function computes cosine values to select down-regulated signature genes (DSGs).
 #' @param input The input matrix with features on rows and samples on columns. The input matrix should have only one sample in each 
 #'     group, or use 'super_sample' function first to create a super-sample that only has one sample in each group.
-#' @param cos.thres The cosine threshold for DSGs.
-#' @param top The upper bound of the number of total DSGs.
-#' @param per The upper bound of the number of DSGs of each group.
+#' @param cos.thres The cosine threshold for DSGs. Please use only one of the filtering methods ('cos.thres', 'top', 'per') at one time.
+#' @param top The upper bound of the number of total DSGs. Please use only one of the filtering methods ('cos.thres', 'top', 'per') at one time.
+#' @param per The upper bound of the number of DSGs of each group. Please use only one of the filtering methods ('cos.thres', 'top', 'per') at one time.
 #' @return A matrix of: the highest cosine values with the reference vectors (column 1), group indexes for the DSG (column 2), and their feature names (column 3) 
 #' @examples
 #' output<-eCOT(input)
@@ -13,8 +13,7 @@
 #' output<-eCOT(input,top=100)
 #' output<-eCOT(input,per=20)
 #' # If you have multiple samples in one group, please use the 'super_sample' function to shrink the group size to one sample per group.
-#' # See the end of this script.
-#' # Please use only one of the filtering methods ('cos.thres', 'top', 'per') at one time.
+#' @export
 
 eCOT<-function(input, cos.thres = NULL, top = NULL, per = NULL){
   
@@ -53,12 +52,14 @@ eCOT<-function(input, cos.thres = NULL, top = NULL, per = NULL){
 #### Helper Functions ####
 
 #' Calculate the cosine between vector A and vector B
+#' @export
 mycosine <- function(A, B) {
   return(sum(A * B) / sqrt(sum(A ^ 2) * sum(B ^ 2)))
 }
 
 #' Calculate the cosine between a data matrix (features on rows and samples on columns)
 ## Applied to data matrix with only one sample in each group, or use 'super_sample' function first.
+#' @export
 cos_sDEG <- function(data) {
   gene <- dim(data)[1]
   smp <- dim(data)[2]
@@ -90,6 +91,7 @@ cos_sDEG <- function(data) {
 #' @param Input Input matrix, with features on rows and samples on columns.
 #' @param nRep Number of samples in each group. E.g., Group 1 has 4 samples, Group 2 has 3 samples, Group 3 has 3 samples.
 #' Then nRep = c(4,3,3)
+#' @export
 super_sample<-function(input,nRep){
   output <- NULL
   start <- 1

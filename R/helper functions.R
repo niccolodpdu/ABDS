@@ -1,4 +1,5 @@
 #' Calculate the cosine between vector A and vector B
+#' @export
 mycosine <- function(A, B) {
   return(sum(A * B) / sqrt(sum(A ^ 2) * sum(B ^ 2)))
 }
@@ -16,6 +17,7 @@ cos_ref <- function(data, ref) {
 }
 
 #' Calculate the cosine between data and CEG reference, e.g. c(1, 1, 1)
+#' @export
 cos_iCEG <- function(data) {
   gene <- dim(data)[1]
   smp <- dim(data)[2]
@@ -30,6 +32,7 @@ cos_iCEG <- function(data) {
 }
 
 #' Calculate the cosine between data and closest iDEG reference, e.g. c(1, 0, 0)
+#' @export
 cos_iDEG <- function(data) {
   gene <- dim(data)[1]
   smp <- dim(data)[2]
@@ -53,6 +56,7 @@ cos_iDEG <- function(data) {
 }
 
 #' total count normalization
+#' @export
 totalcount <- function(data) {
   scalar <- colSums(data) / mean(colSums(data))
   data <- apply(data, 2, function(x)
@@ -62,7 +66,10 @@ totalcount <- function(data) {
 }
 
 
+#' @description
 #' This function computes cosine values to select markers.
+#' @references Lu Y, Wu CT, Parker SJ, Cheng Z, Saylor G, Van Eyk JE, Yu G, Clarke R, Herrington DM, Wang Y. COT: an efficient and accurate method for detecting marker genes among many subtypes. Bioinform Adv. 2022 May 27;2(1):vbac037. doi: 10.1093/bioadv/vbac037. PMID: 35673616; PMCID: PMC9163574.
+#' @export
 cotMG <- function(data=NULL, Sest, thres.low=0.05, thres.high=1, cos.thres=1, 
                   top=NULL, per=NULL) {
   

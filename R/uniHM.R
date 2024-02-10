@@ -5,7 +5,7 @@
 #'
 #' @param m an integer, number of colors in the colormap
 #' @return a matrix with three columns (r, g, b) representing the color map
-
+#' @export
 redblue <- function(m = nrow(colormap())) {
             if (m %% 2 == 0) {
                         # From [0 0 1] to [1 1 1], then [1 1 1] to [1 0 0];
@@ -36,7 +36,7 @@ redblue <- function(m = nrow(colormap())) {
 #' @param tot_sg1 A numeric matrix containing the input data to be modified.
 #'
 #' @return A modified numeric matrix containing the scaled, log-transformed, and centered data.
-
+#' @export
 heatmap_data_modification <- function(tot_sg1) {
             # Calculate row sums and factor for scaling
             tot_sg_sum <- rowSums(tot_sg1)

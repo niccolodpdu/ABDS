@@ -4,6 +4,7 @@
 #' @param mg.info Do you have the info for marker genes?
 #' @param mg A list of marker genes
 #' @param mg.col A vector of colors
+#' @export
 
 
 scatter_plot<-function(data, mg.info = FALSE, mg = NULL, 
