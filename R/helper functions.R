@@ -65,7 +65,7 @@ totalcount <- function(data) {
   return(list(data = data, norm_factor = scalar))
 }
 
-
+#' @@title COT
 #' @description
 #' This function computes cosine values to select markers.
 #' @references Lu Y, Wu CT, Parker SJ, Cheng Z, Saylor G, Van Eyk JE, Yu G, Clarke R, Herrington DM, Wang Y. COT: an efficient and accurate method for detecting marker genes among many subtypes. Bioinform Adv. 2022 May 27;2(1):vbac037. doi: 10.1093/bioadv/vbac037. PMID: 35673616; PMCID: PMC9163574.

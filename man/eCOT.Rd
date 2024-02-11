@@ -10,11 +10,11 @@ eCOT(input, cos.thres = NULL, top = NULL, per = NULL)
 \item{input}{The input matrix with features on rows and samples on columns. The input matrix should have only one sample in each
 group, or use 'super_sample' function first to create a super-sample that only has one sample in each group.}
 
-\item{cos.thres}{The cosine threshold for DSGs.}
+\item{cos.thres}{The cosine threshold for DSGs. Please use only one of the filtering methods ('cos.thres', 'top', 'per') at one time.}
 
-\item{top}{The upper bound of the number of total DSGs.}
+\item{top}{The upper bound of the number of total DSGs. Please use only one of the filtering methods ('cos.thres', 'top', 'per') at one time.}
 
-\item{per}{The upper bound of the number of DSGs of each group.}
+\item{per}{The upper bound of the number of DSGs of each group. Please use only one of the filtering methods ('cos.thres', 'top', 'per') at one time.}
 }
 \value{
 A matrix of: the highest cosine values with the reference vectors (column 1), group indexes for the DSG (column 2), and their feature names (column 3)
@@ -28,6 +28,4 @@ output<-eCOT(input,cos.thres=0.99)
 output<-eCOT(input,top=100)
 output<-eCOT(input,per=20)
 # If you have multiple samples in one group, please use the 'super_sample' function to shrink the group size to one sample per group.
-# See the end of this script.
-# Please use only one of the filtering methods ('cos.thres', 'top', 'per') at one time.
 }
