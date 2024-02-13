@@ -1,3 +1,4 @@
+
 #' Calculate the cosine between vector A and vector B
 #' @export
 mycosine <- function(A, B) {
@@ -65,7 +66,7 @@ totalcount <- function(data) {
   return(list(data = data, norm_factor = scalar))
 }
 
-#' @@title COT
+#' @title COT
 #' @description
 #' This function computes cosine values to select markers.
 #' @references Lu Y, Wu CT, Parker SJ, Cheng Z, Saylor G, Van Eyk JE, Yu G, Clarke R, Herrington DM, Wang Y. COT: an efficient and accurate method for detecting marker genes among many subtypes. Bioinform Adv. 2022 May 27;2(1):vbac037. doi: 10.1093/bioadv/vbac037. PMID: 35673616; PMCID: PMC9163574.
@@ -169,4 +170,3 @@ cotMG <- function(data=NULL, Sest, thres.low=0.05, thres.high=1, cos.thres=1,
   
   return(list(mg.list = mg.list, mg.cos = mg.cos))
 }
-

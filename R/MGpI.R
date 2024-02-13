@@ -1,5 +1,8 @@
 #' @name MGpI
 #' @title Mechanism-integrated group-wise pre-imputation
+#' @description
+#' A mechanism-integrated group-wise pre-imputation (MGpI) strategy that explicitly considers 
+#' mixed missing mechanisms across different phenotypic groups
 #' @param readin Read-in data, with features on the row and samples (grouped) on the columns. All missing values (NA) should 
 #' be imputed beforehand. Samples of the same group should be placed together.
 #' @param nRep The number of samples in each group, e.g., c(5,4,3,2), corresponding to the readin data.
@@ -32,14 +35,14 @@ MGpI<-function(readin,nRep,min_option='global',missing_rate_threshold=1, sd_scal
  
   
   
-  # temporarily replace NA with 0
+  # temporarily replace NA with 0. These 0 value will be turned back to NA later!
   
   before_remove[is.na(before_remove)]<-0   
   after_remove<-NULL 
   index_name<-NULL
   
   
-  # select features with missing rate less than ?% in any of each group
+  # select features with missing rate less than (a given threshold) in any of each group
   
   before_impute<-before_remove
   
@@ -47,8 +50,8 @@ MGpI<-function(readin,nRep,min_option='global',missing_rate_threshold=1, sd_scal
   for (i in 1:length(nRep)){
     nRep_sum[i]<-sum(nRep[1:i])
   }
-  nRep_plus<-c(0,nRep_sum)  ## nRep_plus will be 0 21 60 94 96
-  non_0<-list() ## this stores the number of non-0 values in each group
+  nRep_plus<-c(0,nRep_sum)  # nRep_plus will be 0 21 60 94 96
+  non_0<-list() # this stores the number of non-0 values in each group
   
   
   if (missing_rate_threshold!=1){
@@ -57,11 +60,13 @@ MGpI<-function(readin,nRep,min_option='global',missing_rate_threshold=1, sd_scal
     for (j in 1:dim(before_remove)[1]){
       for (i in 1:length(nRep)){
         non_0[i]<-sum(before_remove[j,(nRep_plus[i]+1):(nRep_plus[i+1])] !=0)
+        # the number of non-0 values in each group (iteratively, all features)
       }
       
       if (any(as.matrix(non_0)>as.matrix(nRep)*(1-missing_rate_threshold))){ 
         after_remove<-rbind(after_remove,before_remove[j,])
         index_name<-c(index_name,j)
+        # remove unqualified features
       }
     }
     
@@ -75,10 +80,23 @@ MGpI<-function(readin,nRep,min_option='global',missing_rate_threshold=1, sd_scal
   
   # Imputation
   
-  after_impute<-NULL
-  protein_segment<-list()
+  ## Initializing
+  
+  after_impute<-NULL 
+  # what's after imputation
+  
+  protein_segment<-list() 
+  # Consider a protein is recorded in 10 samples where 5 samples are in one group and other 5 in the other one.
+  # Data in the two groups are separately moved into the list as two elements, where each one is a 5-value vector.
+  
   log_segment<-list()
-  overall_LLOD_cells<-0
+  # log-transformed protein_segment
+  
+  overall_LLOD<-0
+  # count of the LLOD value(s)
+  
+  ## 'local' refers to using feature-wise minimum value for imputation. 
+  ## The other choice is 'global' that uses global minimum value.
   
   if (min_option == 'local'){
     message("MGpI: Using weighted feature-wise minimum value & group-mean for feature-wise pre-imputation")
@@ -90,12 +108,13 @@ MGpI<-function(readin,nRep,min_option='global',missing_rate_threshold=1, sd_scal
       if (length(this_protein)==length(this_protein[this_protein==0])){
         message("MGpI: Features with all value missing detected! Skip to the next feature. Consider removing.")
         after_impute<-rbind(after_impute,this_protein)
-        overall_LLOD_cells<-overall_LLOD_cells+length(this_protein)
+        overall_LLOD<-overall_LLOD+length(this_protein)
         
       } else {
-      
+        
+        # log-transformed non-zero feature-wise minimum value
         feature_min<-min(this_protein[this_protein!=0])
-        feature_min_log<-log(feature_min)
+        feature_min_log<-log(feature_min) 
         
         for (i in 1:length(nRep)){
           non_0[i]<-sum(before_impute[j,(nRep_plus[i]+1):(nRep_plus[i+1])] !=0)
@@ -116,7 +135,7 @@ MGpI<-function(readin,nRep,min_option='global',missing_rate_threshold=1, sd_scal
               missing_LLOD_rate * feature_min/2 + 
               (1 - missing_LLOD_rate) * mean(protein_segment[[i]][protein_segment[[i]]!=0])
           }
-          overall_LLOD_cells<-overall_LLOD_cells + missing_LLOD_rate*length(protein_segment[[i]])
+          overall_LLOD<-overall_LLOD + missing_LLOD_rate*length(protein_segment[[i]])
         }
       
         after_impute<-rbind(after_impute,unlist(protein_segment))
@@ -135,7 +154,7 @@ MGpI<-function(readin,nRep,min_option='global',missing_rate_threshold=1, sd_scal
       if (length(this_protein)==length(this_protein[this_protein==0])){
         message("MGpI: Features with all value missing detected! Skip to the next feature. Consider removing.")
         after_impute<-rbind(after_impute,this_protein)
-        overall_LLOD_cells<-overall_LLOD_cells+length(this_protein)
+        overall_LLOD<-overall_LLOD+length(this_protein)
         
       } else {
         
@@ -163,7 +182,7 @@ MGpI<-function(readin,nRep,min_option='global',missing_rate_threshold=1, sd_scal
               missing_LLOD_rate * global_min/2 + 
               (1 - missing_LLOD_rate) * mean(protein_segment[[i]][protein_segment[[i]]!=0])
           }
-          overall_LLOD_cells<-overall_LLOD_cells + missing_LLOD_rate*length(protein_segment[[i]])
+          overall_LLOD<-overall_LLOD + missing_LLOD_rate*length(protein_segment[[i]])
         }
         
         after_impute<-rbind(after_impute,unlist(protein_segment))
