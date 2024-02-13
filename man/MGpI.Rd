@@ -31,7 +31,8 @@ is 1 (no scaling).}
 the normalized data.
 }
 \description{
-Mechanism-integrated group-wise pre-imputation
+A mechanism-integrated group-wise pre-imputation (MGpI) strategy that explicitly considers
+mixed missing mechanisms across different phenotypic groups
 }
 \examples{
 MGpIed <- MGpI(readin=data, nRep=c(5,4,3,2), min_option='global', missing_rate_threshold=0.8, sd_scaler=5)

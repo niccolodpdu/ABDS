@@ -6,8 +6,8 @@
 #' display multiple phenotypic groups. We discuss the methodological principles and demonstrate the effectiveness of three 
 #' analytics tools, supported by comparative evaluations and biomedical showcases.
 #'
-#' @docType package
-#' @name ABDS-package
+#' @docType _PACKAGE
+#' @name ABDS_PACKAGE
 #' @aliases ABDS
 #'
 #' @import heatmaply
