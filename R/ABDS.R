@@ -6,7 +6,6 @@
 #' display multiple phenotypic groups. We discuss the methodological principles and demonstrate the effectiveness of three 
 #' analytics tools, supported by comparative evaluations and biomedical showcases.
 #'
-#' @docType _PACKAGE
 #' @name ABDS
 #' @aliases ABDS
 #'
