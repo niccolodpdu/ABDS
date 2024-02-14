@@ -7,7 +7,7 @@
 #' analytics tools, supported by comparative evaluations and biomedical showcases.
 #'
 #' @docType _PACKAGE
-#' @name ABDS_PACKAGE
+#' @name ABDS
 #' @aliases ABDS
 #'
 #' @import heatmaply
