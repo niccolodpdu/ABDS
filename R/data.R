@@ -6,3 +6,14 @@
 #' @format ## `sample_data_uniHM`
 #' A data frame with 12 rows and 10 columns:
 "sample_data_uniHM"
+
+#' MGpI Sample Data
+#'
+#' Sample data extracted from GSE19380 using only 16 pure samples from 4 groups (Primary neuronal culture,
+#' Primary astrocytic culture, Primary oligodendrocytic culture, Primary microglial culture) according to the phenotypic data.
+#' Then missing values are manually introduced by two mechanisms: lower limit of detection (LLOD) and missing at random (MAR),
+#' with totally ~80,000 missing values and ~16,000 (20%) missing due to MAR. Features with all values missing are removed.
+#'
+#' @format ## `sample_data_MGpI`
+#' A data frame with 29,772 rows and 16 columns:
+"sample_data_MGpI"
