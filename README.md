@@ -14,3 +14,4 @@ devtools::install_github("niccolodpdu/ABDS")
 
 ## User Manual
 https://htmlpreview.github.io/?https://github.com/niccolodpdu/ABDS/blob/master/vignette.html
+Some features in this vignette may not be properly displayed online.
