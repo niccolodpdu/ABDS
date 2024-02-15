@@ -11,3 +11,6 @@ You can install the latest version of ABDS from GitHub by
 ```{r, eval = FALSE}
 devtools::install_github("niccolodpdu/ABDS")
 ```
+
+## User Manual
+https://htmlpreview.github.io/?https://github.com/niccolodpdu/ABDS/blob/master/vignette.html
