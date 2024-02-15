@@ -4,7 +4,7 @@ author: "Dongping Du"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteIndexEntry{ABDS User Maunal}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -27,14 +27,12 @@ devtools::install_github("niccolodpdu/ABDS")
 ## MGpI: Mechanism-integrated group-wise pre-imputation
 Missing values associated with these genes are expected to have a group-specific mix of different missing mechanisms and cross-group uneven missing rates. Thus, using an overall missing rate for data quality control would be problematic and could adversely affect subsequent analyses. We propose a mechanism-integrated group-wise pre-imputation (MGpI) strategy that explicitly considers mixed missing mechanisms across different phenotypic groups.
 
-In the following example, we will see how to apply MGpI to real-world gene expression data (GSE19380) with artificially introduced missing values from a mixed mechanisms of missingness - lower limit of detection (LLOD) and missing at random (MAR). 
+In the following example, we will see how to apply MGpI to real-world gene expression data (GSE19380) with artificially introduced missing values from a mixed mechanisms of missingness - lower limit of detection (LLOD) and missing at random (MAR). Please note that MGpI requires the group information of samples. In this case, we selected 16 samples from GSE19380 that are pure samples of four primary brain cell cultures according to the phenotypic data in the GSE profile (4 samples in each group: Primary neuronal culture, Primary astrocytic culture, Primary oligodendrocytic culture, Primary microglial culture), and pre-loaded them in our package.
 ```{r, eval = FALSE}
 ## Read-in
 library(ABDS)
 readin<-ABDS::sample_data_MGpI
-```
-Please note that MGpI requires the group information of samples. In this case, we selected 16 samples from GSE19380 that are pure samples of four primary brain cell cultures according to the phenotypic data in the GSE profile (4 samples in each group: Primary neuronal culture, Primary astrocytic culture, Primary oligodendrocytic culture, Primary microglial culture), and pre-loaded them in our package.
-```{r, eval = FALSE}
+
 ## MGpI Imputation
 nRep=c(4,4,4,4) # Group-info vector: four samples in each one of the four groups
 MGpI_imputed<-ABDS::MGpI(readin,nRep = nRep)
@@ -42,7 +40,7 @@ MGpI_imputed<-ABDS::MGpI(readin,nRep = nRep)
 
 ## eCOT: Extended Cosine-based One-sample Test
 In addition to signature genes, a molecularly distinct group may also be characterized by features that are uniquely silent in the group of interest but in no others – so-called downregulated signature genes (DSGs).
-```{r, eval = FALSE}
+```{r, warning=FALSE,fig.height=5, fig.width=6, fig.align='left'}
 ## Read-in
 library(ABDS)
 readin<-ABDS::sample_data_eCOT
@@ -52,24 +50,28 @@ num_dsg = 450
 num_sg = 60
 ABDS::scatter_plot(readin,mg.info = TRUE, mg = c(list(1:num_dsg),list((num_dsg+1):(num_sg+num_dsg))), mg.col = c('red','green')) # Red dots are DSGs
 ```
+
 Now let's take a look at the DSGs identified by eCOT:
-```{r, eval = FALSE}
+```{r, warning=FALSE,fig.height=5, fig.width=6, fig.align='left'}
 ## Read-in
 predict_ecot<-1-as.numeric(ABDS::eCOT(readin)[,1])
 ABDS::scatter_plot(readin,mg.info = TRUE, mg = list(which(predict_ecot<sort(predict_ecot)[num_dsg])), mg.col = c('red'))
 ```
+
 It's also possible to use the ROC curve to help evaluate the outcome of eCOT:
-```{r, eval = FALSE}
+```{r, warning=FALSE,fig.height=5, fig.width=6, fig.align='left'}
 ## ROC
 library(pROC)
 predict_ecot<-predict_ecot/max(predict_ecot)
 gt<-c(rep(0,num_dsg),rep(1,(dim(readin)[1]-num_dsg))) # Assigning ground truth labels
 roc_curve_ecot <- roc(gt, predict_ecot)
+plot((1-roc_curve_ecot$specificities), roc_curve_ecot$sensitivities, 
+     type = "l", xlab = "False Positive Rate", ylab = "True Positive Rate", col = "blue",lwd = 1.5)
 ```
 
 ## uniHM: Unified heatmap design for comparative display
 A popular heatmap design for displaying differentially expressed genes is to standardize each gene separately – the expression levels are first centered and then normalized by standard deviation. To address the aforementioned drawbacks, we now propose an alternative heatmap design that can display both the differential pattern and referenced quality of SGs/DSGs. The following codes show an example of input modification and plotting such heatmap design by uniHM.
-```{r, eval = FALSE}
+```{r, warning=FALSE}
 ## Read-in
 library(ABDS)
 library(heatmaply)
