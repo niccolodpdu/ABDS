@@ -3,11 +3,11 @@
 #' @description
 #' A mechanism-integrated group-wise pre-imputation (MGpI) strategy that explicitly considers 
 #' mixed missing mechanisms across different phenotypic groups
-#' @param readin Read-in data, with features on the row and samples (grouped) on the columns. All missing values (NA) should 
-#' be imputed beforehand. Samples of the same group should be placed together.
+#' @param readin Read-in data, with features on the row and samples (grouped) on the columns.
+#' Samples of the same group should be placed together.
 #' @param nRep The number of samples in each group, e.g., c(5,4,3,2), corresponding to the readin data.
-#' @param min_option The options for the minimum value, with 'global' (default) meaning to use the global minimum value across the 
-#' whole data matrix, or 'local' meaning to use the feature-wise minimum value.
+#' @param min_option The options for the minimum value, with 'global' (default) meaning to use the global minimum value across 
+#' the whole data matrix, or 'local' meaning to use the feature-wise minimum value.
 #' @param missing_rate_threshold A value between 0 and 1. The upper threshold of sample-wise missing-rate allowed for features 
 #' in any of each group, with 1 as default (all features are allowed).
 #' @param sd_scaler For scaling up the standard deviation of the distribution obtained from the non-missing value. Default
@@ -35,7 +35,7 @@ MGpI<-function(readin,nRep,min_option='global',missing_rate_threshold=1, sd_scal
  
   
   
-  # temporarily replace NA with 0. These 0 value will be turned back to NA later!
+  # temporarily replace NA with 0. As we are dealing with LLOD mechanism, 0 values are not meaningful in this case.
   
   before_remove[is.na(before_remove)]<-0   
   after_remove<-NULL 
