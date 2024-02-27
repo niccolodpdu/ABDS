@@ -8,18 +8,22 @@ MGpI(
   readin,
   nRep,
   min_option = "global",
+  zero.ignore = FALSE,
   missing_rate_threshold = 1,
   sd_scaler = 1
 )
 }
 \arguments{
-\item{readin}{Read-in data, with features on the row and samples (grouped) on the columns. All missing values (NA) should
-be imputed beforehand. Samples of the same group should be placed together.}
+\item{readin}{Read-in data, with features on the row and samples (grouped) on the columns.
+Samples of the same group should be placed together.}
 
 \item{nRep}{The number of samples in each group, e.g., c(5,4,3,2), corresponding to the readin data.}
 
-\item{min_option}{The options for the minimum value, with 'global' (default) meaning to use the global minimum value across the
-whole data matrix, or 'local' meaning to use the feature-wise minimum value.}
+\item{min_option}{The options for the minimum value, with 'global' (default) meaning to use the global minimum value across
+the whole data matrix, or 'local' meaning to use the feature-wise minimum value.}
+
+\item{zero.ignore}{Whether to ignore the zero values in the input data. If set to TRUE, zero values in the input data will
+not be seen as missing values thus will not be imputed. Default is FALSE (to see zero-values as missing and impute them).}
 
 \item{missing_rate_threshold}{A value between 0 and 1. The upper threshold of sample-wise missing-rate allowed for features
 in any of each group, with 1 as default (all features are allowed).}
