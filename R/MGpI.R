@@ -18,7 +18,7 @@
 #' @return the normalized data.
 #' 
 #' @examples 
-#' MGpIed <- MGpI(readin=data, nRep=c(5,4,3,2), min_option='global', missing_rate_threshold=0.8, sd_scaler=5)
+#' MGpIed <- MGpI(readin=data, nRep=c(5,4,3,2))
 #' @export
 
 MGpI<-function(readin,nRep,min_option='global',zero.ignore=FALSE,missing_rate_threshold=1, sd_scaler=1){
