@@ -26,23 +26,18 @@ MGpI<-function(readin,nRep,min_option='global',missing_rate_threshold=1, sd_scal
   
   message("MGpI: Pre-processing")
   
-  # turn characters into numbers
+  # Pre-processing & Initialization
   
   for (i in 1:dim(before_remove)[2]){   
     temp<-as.numeric(before_remove[,i])
     before_remove[,i]<-temp
   }
- 
-  
-  
-  # temporarily replace NA with 0. As we are dealing with LLOD mechanism, 0 values are not meaningful in this case.
-  
   before_remove[is.na(before_remove)]<-0   
   after_remove<-NULL 
   index_name<-NULL
   
   
-  # select features with missing rate less than (a given threshold) in any of each group
+  # Select features with missing rate less than (a given threshold) in any of each group
   
   before_impute<-before_remove
   
@@ -77,7 +72,6 @@ MGpI<-function(readin,nRep,min_option='global',missing_rate_threshold=1, sd_scal
   }
   
   
-  
   # Imputation
   
   ## Initializing
@@ -88,6 +82,7 @@ MGpI<-function(readin,nRep,min_option='global',missing_rate_threshold=1, sd_scal
   protein_segment<-list() 
   # Consider a protein is recorded in 10 samples where 5 samples are in one group and other 5 in the other one.
   # Data in the two groups are separately moved into the list as two elements, where each one is a 5-value vector.
+  # They are treated as two 'protein_segment' here, independently for imputation.
   
   log_segment<-list()
   # log-transformed protein_segment
@@ -117,24 +112,30 @@ MGpI<-function(readin,nRep,min_option='global',missing_rate_threshold=1, sd_scal
         feature_min_log<-log(feature_min) 
         
         for (i in 1:length(nRep)){
-          non_0[i]<-sum(before_impute[j,(nRep_plus[i]+1):(nRep_plus[i+1])] !=0)
+          non_0[i]<-sum(before_impute[j,(nRep_plus[i]+1):(nRep_plus[i+1])] !=0) 
+          # loading the number of non-zero values into temporary storage
           protein_segment[[i]]<-before_impute[j,(nRep_plus[i]+1):(nRep_plus[i+1])]
+          # imputing the current 'protein_segment'
 
           if (non_0[i]==0){
             protein_segment[[i]][protein_segment[[i]]==0]<-feature_min/2
+            # if the current 'protein_segment' contains only zero values, impute them with min/2
             missing_LLOD_rate<-1
             
           } else if (non_0[i]==1){
             protein_segment[[i]][protein_segment[[i]]==0]<-feature_min/2
+            # if the current 'protein_segment' contains only one non-zero value, impute the rest of them with min/2
             missing_LLOD_rate<-(length(protein_segment[[i]])-1)/length(protein_segment[[i]])
             
           } else {
             log_segment[[i]]<-log(protein_segment[[i]][protein_segment[[i]]!=0])
+            # if the current 'protein_segment' contains more than one non-zero values
             missing_LLOD_rate<-pnorm(feature_min_log,mean = mean(log_segment[[i]]), sd = sd_scaler*sd(log_segment[[i]]))
+            # estimate the proportion of missingness of the current 'protein_segment' ...
             protein_segment[[i]][protein_segment[[i]]==0]<-
               missing_LLOD_rate * feature_min/2 + 
               (1 - missing_LLOD_rate) * mean(protein_segment[[i]][protein_segment[[i]]!=0])
-          }
+          } # ... and impute them accordingly
           overall_LLOD<-overall_LLOD + missing_LLOD_rate*length(protein_segment[[i]])
         }
       
@@ -147,6 +148,7 @@ MGpI<-function(readin,nRep,min_option='global',missing_rate_threshold=1, sd_scal
   
   if (min_option == 'global'){
     message("MGpI: Using weighted global minimum value & feature-wise group-mean for feature-wise pre-imputation")
+    # same process, using the global minimum instead of feature minimum
     for (j in 1:dim(before_impute)[1]){
       
       this_protein<-before_impute[j,]
