@@ -30,10 +30,10 @@ MGpI<-function(readin,nRep,min_option='global',zero.ignore=FALSE,missing_rate_th
   
   # Pre-processing & Initialization
   
-  for (i in 1:dim(before_remove)[2]){   
-    temp<-as.numeric(before_remove[,i])
-    before_remove[,i]<-temp
-  }
+  # for (i in 1:dim(before_remove)[2]){   
+  #   temp<-as.numeric(before_remove[,i])
+  #   before_remove[,i]<-temp
+  # }
   
   if (zero.ignore==TRUE){
     zero_position<-(before_remove==0) 
