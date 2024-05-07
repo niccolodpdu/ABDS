@@ -207,7 +207,7 @@ MGpI<-function(readin,nRep,min_option='global',zero.ignore=FALSE,missing_rate_th
   message("MGpI: Done.")
   
   if (zero.ignore==TRUE){
-    after_impute[zero_position]<-0
+    after_impute[zero_position]<-0 # Set zero values back to 0
   }
   
   return(after_impute)

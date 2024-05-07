@@ -17,21 +17,25 @@
 
 eCOT<-function(input, cos.thres = NULL, top = NULL, per = NULL){
   
+  # Initializing feature names
   if (is.null(row.names(input))){
     row.names(input)<-1:dim(input)[1]
   }
   
   result<-cos_sDEG(input)
   
+  # Filtering result by the cosine threshold for DSGs
   if (!is.null(cos.thres)){
     result<-result[(result[,1]>=cos.thres),]
   }
   
+  # Filtering result by the upper bound of the number of total DSGs
   if (!is.null(top)){
     result<-result[order(result[,1],decreasing = TRUE),]
     result<-result[1:min(dim(result)[1],top),]
   }
   
+  # Filtering result by the upper bound of the number of DSGs of each group
   if (!is.null(per)){
     temp<-NULL
     output<-NULL
@@ -64,6 +68,7 @@ cos_sDEG <- function(data) {
   gene <- dim(data)[1]
   smp <- dim(data)[2]
   
+  # Creating reference vector list
   ref <- vector("list", length = smp)
   for (i in 1:smp) {
     ref[[i]] <- rep(1, smp)
@@ -73,13 +78,14 @@ cos_sDEG <- function(data) {
   cosine_value <- array(0, dim = gene)
   which_group <- array(0, dim = gene)
   
+  # Finding the cosine values of features with reference vectors
   for (i in 1:gene) {
     temp <- NULL
     for (j in 1:smp) {
       temp <- c(temp, mycosine(ref[[j]], data[i, ]))
     }
-    cosine_value[i] <- max(temp)
-    which_group[i] <- which.max(temp)
+    cosine_value[i] <- max(temp)          # Output the highest cosine value with the reference vector
+    which_group[i] <- which.max(temp)     # Output the index of cosine reference vector
   }
   
   row_name<-row.names(data)
